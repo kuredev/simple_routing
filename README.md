@@ -1,6 +1,6 @@
 # simple_routing
 
-View the routing table with Netlink
+Display the routing table with Netlink using Ruby
 
 ```ruby
 require_relative "./lib/simple_routing"
