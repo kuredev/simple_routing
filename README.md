@@ -1,5 +1,7 @@
 # simple_routing
 
+View the routing table with Netlink
+
 ```ruby
 require_relative "./lib/simple_routing"
 
