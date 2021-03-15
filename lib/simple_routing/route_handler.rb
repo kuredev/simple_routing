@@ -52,7 +52,6 @@ module SimpleRouting
       routes = []
       while resp_len > 0
         nlmshdhr = Nlmshdhr.new(resp.slice!(0, 16))
-        # puts "--nlmshdhr.flags: #{nlmshdhr.flags}"
 
         rtmsg = Rtmsg.new(resp.slice!(0, 12))
         route = build_route_from_rtmsg(rtmsg)
@@ -60,14 +59,13 @@ module SimpleRouting
         rtattr_all_len = nlmshdhr.len - 28
 
         while rtattr_all_len > 0
-          rtattr = Rtattr.new(resp.slice!(0, 4)) # これも複数ある
+          rtattr = Rtattr.new(resp.slice!(0, 4))
           rtattr.add_data(resp.slice!(0, rtattr.len.to_i - 4))
           route.add_rtattr(rtattr)
 
           rtattr_all_len -= rtattr.len.to_i
         end
         routes.push(route)
-        #route.show
         resp_len = resp.length
       end
       routes
@@ -75,7 +73,7 @@ module SimpleRouting
 
     def request_and_recv
       hdr = [24, RTM_GETROUTE, NLM_F_REQUEST | NLM_F_ROOT, 0, 0].pack('ISSII')
-      ifa = [Socket::AF_INET, 0, 0, 0, 0].pack('CCCCI')
+      ifa = [Socket::AF_INET, 0, 0, 0, 0, 0, 0, 0, 0].pack('CCCCI')
       socket.send(hdr + ifa, 0)
       socket.recv(4096)
     end
